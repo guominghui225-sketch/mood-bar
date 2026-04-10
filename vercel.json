@@ -1,35 +1,10 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "app/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist",
-        "framework": "vite"
-      }
-    },
-    {
-      "src": "api/index.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/index.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/app/$1"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "buildCommand": "npm run vercel-build",
-  "installCommand": "npm install",
+  "buildCommand": "cd app && npm run build",
   "outputDirectory": "app/dist",
   "framework": "vite",
-  "rootDirectory": "app"
+  "functions": {
+    "api/*": {
+      "maxDuration": 30
+    }
+  }
 }
