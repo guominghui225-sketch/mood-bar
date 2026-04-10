@@ -1,0 +1,792 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 7%;
+    --foreground: 43 33% 93%;
+    --card: 0 0% 10%;
+    --card-foreground: 43 33% 93%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 43 33% 93%;
+    --primary: 45 65% 52%;
+    --primary-foreground: 0 0% 7%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 43 33% 93%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 43 20% 60%;
+    --accent: 45 65% 52%;
+    --accent-foreground: 0 0% 7%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 45 65% 52%;
+    --input: 0 0% 15%;
+    --ring: 45 65% 52%;
+    --radius: 0.75rem;
+    
+    /* Mood Bar Custom Colors */
+    --mood-dark: #121212;
+    --mood-card: #1A1A1A;
+    --mood-gold: #C8A97E; /* Updated from #D4AF37 */
+    --mood-gold-light: #D4B98F; /* Updated from #E8D5A3 */
+    --mood-cream: #F5F0E1;
+    --mood-text: #C9B896;
+    --mood-text-muted: #A89B7B;
+    --mood-charcoal-2: #0A0A0A; /* Added for background gradient bottom */
+    --mood-light-gray: #888888; /* Added for secondary text */
+    --mood-pure-white: #FFFFFF; /* Added for body text, slogan */
+    --mood-pure-black: #000000; /* Added for button text */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply antialiased;
+    background: linear-gradient(180deg, #121212 0%, #0A0A0A 100%);
+    color: #FFFFFF;
+    font-family: 'Inter', 'Noto Sans SC', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', 'Noto Serif SC', serif;
+  }
+}
+
+@layer components {
+  .font-serif {
+    font-family: 'Playfair Display', 'Noto Serif SC', serif;
+  }
+  
+  .font-sans {
+    font-family: 'Inter', 'Noto Sans SC', sans-serif;
+  }
+  
+  .text-gold {
+    color: var(--mood-gold);
+  }
+  
+  .text-gold-light {
+    color: var(--mood-gold-light);
+  }
+  
+  .text-cream {
+    color: var(--mood-cream);
+  }
+  
+  .text-mood {
+    color: var(--mood-text);
+  }
+  
+  .text-mood-muted {
+    color: var(--mood-text-muted);
+  }
+  
+  .bg-mood-dark {
+    background-color: var(--mood-dark);
+  }
+  
+  .bg-mood-card {
+    background-color: var(--mood-card);
+  }
+  
+  .border-gold {
+    border-color: var(--mood-gold);
+  }
+  
+  .btn-gold {
+    @apply bg-[#C8A97E] text-[#000000] font-medium transition-all duration-200;
+  }
+
+  .btn-gold:hover {
+    @apply brightness-110;
+  }
+
+  .btn-gold:active {
+    @apply scale-95;
+  }
+
+  .btn-outline-gold {
+    @apply bg-transparent border border-[#C8A97E] text-[#C8A97E] font-medium transition-all duration-200;
+  }
+
+  .btn-outline-gold:hover {
+    @apply bg-[#C8A97E]/10;
+  }
+  
+  .btn-outline-gold:active {
+    @apply scale-95;
+  }
+  
+  .card-mood {
+    @apply bg-[#1A1A1A]/95 rounded-2xl border border-[#C8A97E] shadow-2xl;
+  }
+  
+  .mood-btn {
+    @apply px-4 py-3 rounded-full text-sm font-medium transition-all duration-200 min-h-[48px] flex items-center justify-center;
+  }
+  
+  .mood-btn-unselected {
+    @apply bg-[#1A1A1A]/70 border border-[#C8A97E]/50 text-[#F5F0E1];
+  }
+
+  .mood-btn-unselected:hover {
+    @apply border-[#C8A97E] bg-[#1A1A1A];
+  }
+
+  .mood-btn-selected {
+    @apply bg-[#C8A97E] text-[#000000] border border-[#C8A97E];
+    box-shadow: 0 0 12px rgba(200, 169, 126, 0.3);
+  }
+  
+  .mood-btn-disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+}
+
+/* Fluid Background Animation */
+@keyframes fluid-gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: translateY(-20px) scale(1.1);
+    opacity: 0.5;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes rotate-glass {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-fluid-gradient {
+  background-size: 400% 400%;
+  animation: fluid-gradient 15s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 8s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
+.animate-rotate-glass {
+  animation: rotate-glass 1.5s linear infinite;
+}
+
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Staggered animation delays */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+.stagger-7 { animation-delay: 0.35s; }
+.stagger-8 { animation-delay: 0.4s; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: #121212;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C8A97E;
+  border-radius: 2px;
+}
+
+/* Touch action optimization */
+.touch-manipulation {
+  touch-action: manipulation;
+}
+
+/* Prevent text selection */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Glass effect */
+.glass-effect {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+.particle-system {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* 粒子基础样式 */
+.particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+    filter: blur(2px);
+    mix-blend-mode: screen;
+}
+
+/* 气泡粒子 */
+.particle-bubble {
+    background: radial-gradient(circle, rgba(255, 241, 181, 0.25) 0%, rgba(212, 175, 55, 0.15) 30%, transparent 70%);
+    box-shadow: 0 0 30px rgba(255, 241, 181, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.2);
+    filter: blur(3px);
+}
+
+/* 光点粒子 */
+.particle-sparkle {
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 0%, rgba(255, 241, 181, 0.7) 30%, rgba(212, 175, 55, 0.3) 70%, transparent 100%);
+    box-shadow: 0 0 25px rgba(255, 241, 181, 0.8), 0 0 40px rgba(212, 175, 55, 0.6);
+    filter: blur(0.5px);
+}
+
+/* 折射光晕 */
+.refraction-glow {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 241, 181, 0.1) 20%,
+        rgba(212, 175, 55, 0.08) 40%,
+        rgba(139, 111, 78, 0.05) 60%,
+        transparent 80%);
+    filter: blur(50px);
+    animation: refractionPulse 10s ease-in-out infinite;
+    mix-blend-mode: soft-light;
+}
+
+/* 动态模糊层 */
+.dynamic-blur {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(2px);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 998;
+    transition: backdrop-filter 0.5s ease, opacity 0.5s ease;
+}
+
+.dynamic-blur.active {
+    opacity: 0.5;
+    backdrop-filter: blur(10px);
+}
+
+/* 液体折射效果 */
+.liquid-refraction {
+    position: relative;
+    overflow: hidden;
+}
+
+.liquid-refraction::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 30%,
+        rgba(255, 255, 255, 0.05) 50%,
+        transparent 70%
+    );
+    animation: liquidRefraction 6s ease-in-out infinite;
+    pointer-events: none;
+}
+
+/* 柔和光晕 */
+.soft-glow {
+    position: relative;
+}
+
+.soft-glow::after {
+    content: '';
+    position: absolute;
+    top: -20px;
+    left: -20px;
+    right: -20px;
+    bottom: -20px;
+    background: radial-gradient(
+        circle,
+        rgba(212, 175, 55, 0.1) 0%,
+        transparent 70%
+    );
+    filter: blur(30px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* 微光粒子动画 */
+@keyframes bubbleFloat {
+    0%, 100% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+        opacity: 0.2;
+    }
+    20% {
+        transform: translate(40px, -60px) scale(1.3) rotate(90deg);
+        opacity: 0.6;
+    }
+    40% {
+        transform: translate(-30px, -110px) scale(0.9) rotate(180deg);
+        opacity: 0.3;
+    }
+    60% {
+        transform: translate(60px, -170px) scale(1.2) rotate(270deg);
+        opacity: 0.7;
+    }
+    80% {
+        transform: translate(-20px, -220px) scale(0.85) rotate(360deg);
+        opacity: 0.4;
+    }
+}
+
+@keyframes sparkleTwinkle {
+    0%, 100% {
+        opacity: 0.2;
+        transform: scale(1);
+        filter: brightness(1) drop-shadow(0 0 2px rgba(212, 175, 55, 0.3));
+    }
+    25% {
+        opacity: 0.8;
+        transform: scale(1.4);
+        filter: brightness(1.5) drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
+    }
+    50% {
+        opacity: 0.4;
+        transform: scale(0.9);
+        filter: brightness(1.2) drop-shadow(0 0 4px rgba(212, 175, 55, 0.4));
+    }
+    75% {
+        opacity: 1;
+        transform: scale(1.6);
+        filter: brightness(1.8) drop-shadow(0 0 12px rgba(212, 175, 55, 0.8));
+    }
+}
+
+@keyframes refractionPulse {
+    0%, 100% {
+        opacity: 0.08;
+        transform: scale(1);
+        filter: blur(40px) brightness(1);
+    }
+    25% {
+        opacity: 0.2;
+        transform: scale(1.3);
+        filter: blur(50px) brightness(1.3);
+    }
+    50% {
+        opacity: 0.12;
+        transform: scale(0.9);
+        filter: blur(35px) brightness(0.9);
+    }
+    75% {
+        opacity: 0.25;
+        transform: scale(1.4);
+        filter: blur(55px) brightness(1.4);
+    }
+}
+
+@keyframes liquidRefraction {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(10px, 5px) rotate(90deg);
+    }
+    50% {
+        transform: translate(-5px, 10px) rotate(180deg);
+    }
+    75% {
+        transform: translate(5px, -5px) rotate(270deg);
+    }
+}
+
+/* 增强流体背景 */
+.gradient-blob.enhanced {
+    filter: blur(100px);
+    opacity: 0.2;
+    animation: float 20s ease-in-out infinite,
+               pulse 8s ease-in-out infinite,
+               morph 30s ease-in-out infinite;
+}
+
+@keyframes morph {
+    0%, 100% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+    25% {
+        border-radius: 70% 30% 40% 60% / 40% 60% 30% 70%;
+    }
+    50% {
+        border-radius: 40% 60% 70% 30% / 70% 40% 60% 30%;
+    }
+    75% {
+        border-radius: 30% 70% 60% 40% / 50% 60% 40% 70%;
+    }
+}
+
+/* 情绪按钮粒子交互 */
+.mood-btn.particle-interactive {
+    overflow: visible;
+}
+
+.mood-btn.particle-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(212, 175, 55, 0.3),
+                0 0 0 1px var(--color-gold),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+/* 卡片增强效果 */
+.result-card.enhanced {
+    background: linear-gradient(
+        145deg,
+        rgba(26, 26, 26, 0.9) 0%,
+        rgba(10, 10, 10, 0.9) 100%
+    );
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(212, 175, 55, 0.1),
+        inset 0 0 30px rgba(212, 175, 55, 0.05);
+}
+
+/* 加载动画增强 */
+.cocktail-shaker.enhanced {
+    filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.4));
+}
+
+.shaker-glass.enhanced {
+    background: linear-gradient(
+        135deg,
+        rgba(212, 175, 55, 0.3) 0%,
+        rgba(212, 175, 55, 0.1) 50%,
+        rgba(212, 175, 55, 0.05) 100%
+    );
+    border: 2px solid var(--color-gold);
+    box-shadow:
+        0 0 50px rgba(212, 175, 55, 0.3),
+        inset 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+/* 光线追踪效果 */
+.light-ray {
+    position: absolute;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(212, 175, 55, 0.2) 50%,
+        transparent 100%
+    );
+    filter: blur(10px);
+    animation: lightSweep 4s ease-in-out infinite;
+}
+
+@keyframes lightSweep {
+    0%, 100% {
+        transform: translateX(-100%) rotate(0deg);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(100%) rotate(180deg);
+        opacity: 0.3;
+    }
+}
+
+/* 情绪选择页背景增强 */
+.mood-page.enhanced::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at 50% 50%,
+        rgba(212, 175, 55, 0.05) 0%,
+        transparent 70%
+    );
+    filter: blur(60px);
+    z-index: -2;
+    pointer-events: none;
+}
+
+/* 启动页增强 */
+.splash-page.enhanced .main-title {
+    text-shadow:
+        0 0 60px rgba(212, 175, 55, 0.5),
+        0 0 100px rgba(212, 175, 55, 0.3),
+        0 0 150px rgba(212, 175, 55, 0.1);
+    animation: titleGlow 3s ease-in-out infinite;
+}
+
+@keyframes titleGlow {
+    0%, 100% {
+        text-shadow:
+            0 0 60px rgba(212, 175, 55, 0.5),
+            0 0 100px rgba(212, 175, 55, 0.3),
+            0 0 150px rgba(212, 175, 55, 0.1);
+    }
+    50% {
+        text-shadow:
+            0 0 80px rgba(212, 175, 55, 0.7),
+            0 0 140px rgba(212, 175, 55, 0.5),
+            0 0 200px rgba(212, 175, 55, 0.2);
+    }
+}
+
+/* 页面切换动效增强 */
+.page.enhanced-transition {
+    animation: enhancedFadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes enhancedFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.98);
+        filter: blur(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+/* 响应式优化 */
+@media (max-width: 375px) {
+    .particle-system {
+        display: none; /* 在小屏幕上禁用粒子以提升性能 */
+    }
+
+    .dynamic-blur.active {
+        backdrop-filter: blur(5px); /* 减少模糊强度 */
+    }
+}
+
+/* 气泡上升动画 */
+@keyframes bubbleRise {
+    0% {
+        transform: translateY(0) translateX(0);
+        opacity: 0.8;
+    }
+    20% {
+        transform: translateY(-20px) translateX(2px);
+        opacity: 1;
+    }
+    40% {
+        transform: translateY(-40px) translateX(-1px);
+        opacity: 0.9;
+    }
+    60% {
+        transform: translateY(-60px) translateX(1.5px);
+        opacity: 0.7;
+    }
+    80% {
+        transform: translateY(-80px) translateX(-0.5px);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translateY(-100px) translateX(0);
+        opacity: 0;
+    }
+}
+
+/* 灯光脉冲动画 */
+@keyframes lightPulse {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.05);
+    }
+}
+
+/* 粒子渐变液体效果 */
+.particle-gradient {
+    background: radial-gradient(circle at center,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.1) 30%,
+        transparent 70%);
+    animation: particlePulse 2s ease-in-out infinite;
+}
+
+@keyframes particlePulse {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: scale(1.1);
+    }
+}
+
+/* 性能优化 */
+@media (prefers-reduced-motion: reduce) {
+    .particle,
+    .gradient-blob,
+    .refraction-glow,
+    .light-ray {
+        animation: none !important;
+    }
+
+    .dynamic-blur {
+        display: none;
+    }
+}
+
+/* 鸡尾酒调制步骤动画 - 10秒版本 */
+.animate-step-1 {
+    animation: step1 10s linear forwards;
+}
+
+.animate-step-2 {
+    animation: step2 10s linear forwards;
+}
+
+.animate-step-3 {
+    animation: step3 10s linear forwards;
+}
+
+.animate-step-4 {
+    animation: step4 10s linear forwards;
+}
+
+.animate-step-5 {
+    animation: step5 10s linear forwards;
+}
+
+.animate-step-6 {
+    animation: step6 10s linear forwards;
+}
+
+@keyframes step1 {
+    0%, 20% { opacity: 1; }
+    20.01%, 100% { opacity: 0; }
+}
+
+@keyframes step2 {
+    0%, 20% { opacity: 0; }
+    20.01%, 40% { opacity: 1; }
+    40.01%, 100% { opacity: 0; }
+}
+
+@keyframes step3 {
+    0%, 40% { opacity: 0; }
+    40.01%, 50% { opacity: 1; }
+    50.01%, 100% { opacity: 0; }
+}
+
+@keyframes step4 {
+    0%, 60% { opacity: 0; }
+    60.01%, 80% { opacity: 1; }
+    80.01%, 100% { opacity: 0; }
+}
+
+@keyframes step5 {
+    0%, 80% { opacity: 0; }
+    80.01%, 90% { opacity: 1; }
+    90.01%, 100% { opacity: 0; }
+}
+
+@keyframes step6 {
+    0%, 90% { opacity: 0; }
+    90.01%, 100% { opacity: 1; }
+}
