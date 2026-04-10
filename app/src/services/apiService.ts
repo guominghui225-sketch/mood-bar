@@ -7,7 +7,9 @@ import type { MoodType, Cocktail, ApiCocktailResponse, ApiImageStatusResponse } 
 import { getMoodLabel } from '@/constants';
 
 // 后端API基础URL
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:3002';
+// 如果VITE_API_BASE_URL为空字符串，则使用相对路径（用于Vercel部署）
+// 如果未定义，则使用localhost开发环境
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL !== undefined ? import.meta.env.VITE_API_BASE_URL : 'http://localhost:3002';
 
 /**
  * 生成鸡尾酒
