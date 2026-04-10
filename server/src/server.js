@@ -15,11 +15,21 @@ app.use(express.json());
 // 配置CORS（使用自定义中间件）
 app.use(corsMiddleware);
 
-// 健康检查端点
+// 健康检查端点（兼容两种路径）
 app.get('/health', (req, res) => {
   res.status(200).json({
     success: true,
     message: 'Mood Bar API Server is running',
+    timestamp: new Date().toISOString(),
+    version: '1.0.0'
+  });
+});
+
+// Vercel部署专用健康检查端点（带/api前缀）
+app.get('/api/health', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Mood Bar API Server is running (Vercel deployment)',
     timestamp: new Date().toISOString(),
     version: '1.0.0'
   });

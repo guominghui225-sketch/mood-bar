@@ -16,6 +16,7 @@ module.exports = (req, res) => {
     return res.status(200).end();
   }
 
-  // Pass request to Express app
+  // Pass request directly to Express app
+  // Server.js already has routes for both /health and /api/health
   return app(req, res);
 };
