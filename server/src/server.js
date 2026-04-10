@@ -49,15 +49,17 @@ app.use((err, req, res, next) => {
   });
 });
 
-// 启动服务器
-app.listen(PORT, () => {
-  console.log(`🚀 Mood Bar API Server started on port ${PORT}`);
-  console.log(`📁 Environment: ${process.env.NODE_ENV || 'development'}`);
-  const corsOrigins = process.env.CORS_ORIGIN
-    ? process.env.CORS_ORIGIN.split(',')
-    : ['http://localhost:5173', 'http://localhost:3000'];
-  console.log(`🌐 CORS origins: ${corsOrigins.join(', ')}`);
-  console.log(`📊 Health check: http://localhost:${PORT}/health`);
-});
+// 启动服务器（仅当直接运行此文件时）
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`🚀 Mood Bar API Server started on port ${PORT}`);
+    console.log(`📁 Environment: ${process.env.NODE_ENV || 'development'}`);
+    const corsOrigins = process.env.CORS_ORIGIN
+      ? process.env.CORS_ORIGIN.split(',')
+      : ['http://localhost:5173', 'http://localhost:3000'];
+    console.log(`🌐 CORS origins: ${corsOrigins.join(', ')}`);
+    console.log(`📊 Health check: http://localhost:${PORT}/health`);
+  });
+}
 
 module.exports = app;

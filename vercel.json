@@ -2,7 +2,7 @@
   "buildCommand": "cd app && npm run build",
   "outputDirectory": "app/dist",
   "framework": "vite",
-  "installCommand": "cd app && npm install",
+  "installCommand": "npm install --no-audit --no-fund && cd app && npm install --no-audit --no-fund",
   "functions": {
     "api/*": {
       "maxDuration": 30
