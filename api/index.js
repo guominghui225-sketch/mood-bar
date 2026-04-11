@@ -37,50 +37,11 @@ try {
       return res.status(200).end();
     }
 
-    // 传递请求给Express应用
-    console.log(`🔄 转发请求给Express应用:`);
-    console.log(`  - 原始URL: ${req.url}`);
-    console.log(`  - 路径: ${req.path}`);
-    console.log(`  - 原始路径: ${req.originalUrl || req.url}`);
-    console.log(`  - 方法: ${req.method}`);
-    console.log(`  - 头信息:`, req.headers);
+    // 简化：直接传递请求给Express应用
+    // Express应用已经定义了/api前缀的路由，vercel.json中的rewrites配置会确保请求正确路由
+    console.log(`🔄 直接传递请求给Express应用: ${req.method} ${req.url}`);
 
-    // Vercel函数中，当请求/api/health时，req.url可能是/health
-    // 我们需要确保Express应用能看到正确的路径
-    // 保存原始URL以供参考
-    const originalUrl = req.originalUrl || req.url;
-    console.log(`  - 处理前原始URL: ${originalUrl}`);
-
-    // 如果路径不以/api开头，添加/api前缀
-    // 但注意：我们不需要修改req对象，因为Express应用已经定义了/api前缀的路由
-    // 实际上，问题可能是Express应用期望/health但路由是/api/health
-    // 我们需要模拟请求路径，使其匹配Express路由
-
-    // 创建请求对象的浅拷贝，修改url和originalUrl属性
-    // 注意：我们创建一个新对象，但保持对原始req的引用，以便其他属性可用
-    const wrappedReq = Object.create(req);
-
-    // 设置新的url属性
-    const targetUrl = originalUrl.startsWith('/api') ? originalUrl : `/api${originalUrl}`;
-    Object.defineProperty(wrappedReq, 'url', {
-      value: targetUrl,
-      writable: true,
-      enumerable: true,
-      configurable: true
-    });
-
-    // 设置originalUrl属性
-    Object.defineProperty(wrappedReq, 'originalUrl', {
-      value: originalUrl,
-      writable: true,
-      enumerable: true,
-      configurable: true
-    });
-
-    console.log(`  - 目标URL: ${targetUrl}`);
-    console.log(`  - 原始URL: ${originalUrl}`);
-
-    return app(wrappedReq, res);
+    return app(req, res);
   };
 
 } catch (error) {

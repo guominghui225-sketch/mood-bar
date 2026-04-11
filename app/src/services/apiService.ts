@@ -7,17 +7,15 @@ import type { MoodType, Cocktail, ApiCocktailResponse, ApiImageStatusResponse } 
 import { getMoodLabel } from '@/constants';
 
 // 后端API基础URL
-// 如果VITE_API_BASE_URL为空字符串，则使用相对路径（用于Vercel部署）
-// 如果未定义，则使用localhost开发环境
+// 根据环境自动选择API基础URL：
+// - 生产环境：使用相对路径 /api/*（Vercel rewrites会路由到函数）
+// - 开发环境：使用localhost:3007（本地开发服务器）
 const API_BASE_URL = (() => {
   const envValue = import.meta.env.VITE_API_BASE_URL;
 
   // 详细日志记录环境变量状态
   console.warn('🔧 API_BASE_URL环境变量检测:', {
     VITE_API_BASE_URL: envValue,
-    isUndefined: envValue === undefined,
-    isEmptyString: envValue === '',
-    isString: typeof envValue,
     MODE: import.meta.env.MODE,
     PROD: import.meta.env.PROD,
     DEV: import.meta.env.DEV,
@@ -25,16 +23,32 @@ const API_BASE_URL = (() => {
     location: window?.location?.href || 'unknown'
   });
 
-  // 简化逻辑：只检查环境变量值
-  // 如果未定义、空字符串或'undefined'字符串，使用相对路径
-  if (envValue === undefined || envValue === '' || envValue === 'undefined') {
-    console.warn('🔧 使用相对路径（空字符串）');
-    return '';
-  }
+  // 生产环境判断：如果明确是生产环境，或者访问的是Vercel域名
+  const isProduction = import.meta.env.PROD ||
+    (window?.location?.hostname && (
+      window.location.hostname.includes('vercel.app') ||
+      window.location.hostname.includes('.now.sh') ||
+      !window.location.hostname.includes('localhost')
+    ));
 
-  // 如果有值，直接使用
-  console.warn(`🔧 使用API基础URL: "${envValue}"`);
-  return envValue;
+  if (isProduction) {
+    // 生产环境：优先使用环境变量，如果为空则使用相对路径
+    if (envValue === undefined || envValue === '' || envValue === 'undefined') {
+      console.warn('🔧 生产环境：使用相对路径');
+      return '';
+    }
+    console.warn(`🔧 生产环境：使用API基础URL: "${envValue}"`);
+    return envValue;
+  } else {
+    // 开发环境：优先使用环境变量，如果为空则使用localhost:3007
+    if (envValue === undefined || envValue === '' || envValue === 'undefined') {
+      const devUrl = 'http://localhost:3007';
+      console.warn(`🔧 开发环境：使用本地服务器 ${devUrl}`);
+      return devUrl;
+    }
+    console.warn(`🔧 开发环境：使用API基础URL: "${envValue}"`);
+    return envValue;
+  }
 })();
 
 /**
