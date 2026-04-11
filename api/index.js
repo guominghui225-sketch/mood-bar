@@ -44,7 +44,30 @@ try {
     console.log(`  - 原始路径: ${req.originalUrl || req.url}`);
     console.log(`  - 方法: ${req.method}`);
     console.log(`  - 头信息:`, req.headers);
-    return app(req, res);
+
+    // Vercel函数中，当请求/api/health时，req.url可能是/health
+    // 我们需要确保Express应用能看到正确的路径
+    // 保存原始URL以供参考
+    const originalUrl = req.originalUrl || req.url;
+    console.log(`  - 处理前原始URL: ${originalUrl}`);
+
+    // 如果路径不以/api开头，添加/api前缀
+    // 但注意：我们不需要修改req对象，因为Express应用已经定义了/api前缀的路由
+    // 实际上，问题可能是Express应用期望/health但路由是/api/health
+    // 我们需要模拟请求路径，使其匹配Express路由
+
+    // 创建修改后的请求对象副本
+    const modifiedReq = {
+      ...req,
+      // 如果原始URL以/api开头，保持原样；否则添加/api前缀
+      url: originalUrl.startsWith('/api') ? originalUrl : `/api${originalUrl}`,
+      originalUrl: originalUrl
+    };
+
+    console.log(`  - 修改后URL: ${modifiedReq.url}`);
+    console.log(`  - 修改后原始URL: ${modifiedReq.originalUrl}`);
+
+    return app(modifiedReq, res);
   };
 
 } catch (error) {

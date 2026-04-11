@@ -9,11 +9,5 @@
       "memory": 1024,
       "includeFiles": "server/**"
     }
-  },
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/api"
-    }
-  ]
+  }
 }

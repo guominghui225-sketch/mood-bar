@@ -11,18 +11,39 @@ import { getMoodLabel } from '@/constants';
 // 如果未定义，则使用localhost开发环境
 const API_BASE_URL = (() => {
   const envValue = import.meta.env.VITE_API_BASE_URL;
-  console.log('🔧 API_BASE_URL环境变量值:', {
+  const isProduction = import.meta.env.PROD;
+
+  console.warn('🔧 API_BASE_URL环境变量值:', {
     envValue,
     isUndefined: envValue === undefined,
     isEmptyString: envValue === '',
+    isStringUndefined: envValue === 'undefined',
     mode: import.meta.env.MODE,
-    isProduction: import.meta.env.PROD
+    isProduction,
+    location: window?.location?.href || 'unknown'
   });
 
-  // 如果未定义或空字符串，使用空字符串（相对路径）
-  if (envValue === undefined || envValue === '') {
+  // 强制生产环境逻辑：如果检测到生产环境，强制使用相对路径
+  if (isProduction) {
+    console.warn('🔧 生产环境检测到，强制使用相对路径（空字符串）');
     return '';
   }
+
+  // 开发环境逻辑
+  // 如果未定义或空字符串或字符串'undefined'，使用空字符串（相对路径）
+  if (envValue === undefined || envValue === '' || envValue === 'undefined') {
+    console.warn('🔧 使用相对路径（空字符串）');
+    return '';
+  }
+
+  // 安全检查：如果URL包含localhost或127.0.0.1，在非开发模式下警告
+  if (envValue && (envValue.includes('localhost') || envValue.includes('127.0.0.1')) && !import.meta.env.DEV) {
+    console.error('❌ 非开发环境中检测到localhost URL:', envValue);
+    console.error('❌ 强制使用相对路径');
+    return '';
+  }
+
+  console.warn(`🔧 使用API基础URL: "${envValue}"`);
   return envValue;
 })();
 
