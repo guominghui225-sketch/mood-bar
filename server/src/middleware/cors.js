@@ -5,7 +5,7 @@ const corsOptions = {
   origin: function (origin, callback) {
     const allowedOrigins = process.env.CORS_ORIGIN
       ? process.env.CORS_ORIGIN.split(',')
-      : ['http://localhost:5173', 'http://localhost:3000'];
+      : ['http://localhost:5173', 'http://localhost:3000','https://www.moodbar.xyz','https://mood-bar-w516.vercel.app'];
 
     console.log(`🌐 CORS检查: origin=${origin}, allowedOrigins=${JSON.stringify(allowedOrigins)}`);
 
