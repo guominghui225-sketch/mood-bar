@@ -3,11 +3,21 @@ console.log('📁 环境文件路径:', require('path').resolve(process.cwd(), '
 const express = require('express');
 const corsMiddleware = require('./middleware/cors');
 const apiRouter = require('./routes/api');
+const { validateConfig } = require('./config');
 
 // 创建Express应用
 const app = express();
 const PORT = process.env.PORT || 3000;
 console.log(`🔧 服务器端口配置: ${PORT} (环境变量 PORT=${process.env.PORT})`);
+
+// 验证配置
+try {
+  validateConfig();
+  console.log('✅ 配置验证通过');
+} catch (error) {
+  console.error('❌ 配置验证失败:', error.message);
+  // 继续运行，让服务以模拟模式运行
+}
 
 // 解析JSON请求体
 app.use(express.json());

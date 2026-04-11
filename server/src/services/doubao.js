@@ -217,7 +217,7 @@ function getDoubaoService() {
       console.warn('豆包服务初始化失败，将使用模拟模式:', error.message);
       instance = {
         generateCocktailWithPrompt: async (mood, prompt) => {
-          return await instance.generateMockCocktail(mood);
+          return await this.generateMockCocktail(mood);
         },
         generateMockCocktail: async (mood) => {
           // 模拟实现

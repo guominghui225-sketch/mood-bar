@@ -1,8 +1,8 @@
 {
-  "buildCommand": "cd app && npm ci && npm run build",
+  "buildCommand": "cd app && npm run build",
   "outputDirectory": "app/dist",
   "framework": null,
-  "installCommand": "cd server && npm ci --no-audit --no-fund && cd ../app && npm ci --no-audit --no-fund",
+  "installCommand": "cd server && NODE_ENV=development npm install --no-audit --no-fund && cd ../app && NODE_ENV=development npm install --no-audit --no-fund",
   "functions": {
     "api/index.js": {
       "maxDuration": 300,

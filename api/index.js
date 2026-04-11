@@ -26,14 +26,12 @@ try {
   module.exports = (req, res) => {
     console.log(`📨 收到请求: ${req.method} ${req.url}`);
 
-    // 添加CORS headers
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-    // 处理预检请求
+    // 处理预检请求 - CORS中间件会处理，但这里也处理以确保快速响应
     if (req.method === 'OPTIONS') {
       console.log('✅ 处理OPTIONS预检请求');
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD');
+      res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
       return res.status(200).end();
     }
 

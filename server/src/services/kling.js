@@ -387,10 +387,31 @@ class KlingService {
 let instance = null;
 function getKlingService() {
   if (!instance) {
-    instance = new KlingService();
+    try {
+      instance = new KlingService();
 
-    // 每小时清理一次过期任务
-    setInterval(() => instance.cleanupOldTasks(), 60 * 60 * 1000);
+      // 每小时清理一次过期任务
+      setInterval(() => instance.cleanupOldTasks(), 60 * 60 * 1000);
+    } catch (error) {
+      console.warn('可灵服务初始化失败，将使用模拟模式:', error.message);
+      instance = {
+        generateImage: async (prompt, options) => {
+          console.warn('可灵模拟模式: 图片生成不可用');
+          return {
+            generationId: `mock-${Date.now()}`,
+            status: 'failed',
+            message: '图片生成服务不可用，请检查API配置'
+          };
+        },
+        getImageStatus: async (generationId) => {
+          return {
+            status: 'failed',
+            message: '图片生成服务不可用'
+          };
+        },
+        cleanupOldTasks: () => {}
+      };
+    }
   }
   return instance;
 }
