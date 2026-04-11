@@ -38,7 +38,12 @@ try {
     }
 
     // 传递请求给Express应用
-    console.log(`🔄 转发请求给Express应用: ${req.path}`);
+    console.log(`🔄 转发请求给Express应用:`);
+    console.log(`  - 原始URL: ${req.url}`);
+    console.log(`  - 路径: ${req.path}`);
+    console.log(`  - 原始路径: ${req.originalUrl || req.url}`);
+    console.log(`  - 方法: ${req.method}`);
+    console.log(`  - 头信息:`, req.headers);
     return app(req, res);
   };
 
