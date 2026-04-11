@@ -11,38 +11,28 @@ import { getMoodLabel } from '@/constants';
 // 如果未定义，则使用localhost开发环境
 const API_BASE_URL = (() => {
   const envValue = import.meta.env.VITE_API_BASE_URL;
-  const isProduction = import.meta.env.PROD;
 
-  console.warn('🔧 API_BASE_URL环境变量值:', {
-    envValue,
+  // 详细日志记录环境变量状态
+  console.warn('🔧 API_BASE_URL环境变量检测:', {
+    VITE_API_BASE_URL: envValue,
     isUndefined: envValue === undefined,
     isEmptyString: envValue === '',
-    isStringUndefined: envValue === 'undefined',
-    mode: import.meta.env.MODE,
-    isProduction,
+    isString: typeof envValue,
+    MODE: import.meta.env.MODE,
+    PROD: import.meta.env.PROD,
+    DEV: import.meta.env.DEV,
+    VITE_USER_NODE_ENV: import.meta.env.VITE_USER_NODE_ENV,
     location: window?.location?.href || 'unknown'
   });
 
-  // 强制生产环境逻辑：如果检测到生产环境，强制使用相对路径
-  if (isProduction) {
-    console.warn('🔧 生产环境检测到，强制使用相对路径（空字符串）');
-    return '';
-  }
-
-  // 开发环境逻辑
-  // 如果未定义或空字符串或字符串'undefined'，使用空字符串（相对路径）
+  // 简化逻辑：只检查环境变量值
+  // 如果未定义、空字符串或'undefined'字符串，使用相对路径
   if (envValue === undefined || envValue === '' || envValue === 'undefined') {
     console.warn('🔧 使用相对路径（空字符串）');
     return '';
   }
 
-  // 安全检查：如果URL包含localhost或127.0.0.1，在非开发模式下警告
-  if (envValue && (envValue.includes('localhost') || envValue.includes('127.0.0.1')) && !import.meta.env.DEV) {
-    console.error('❌ 非开发环境中检测到localhost URL:', envValue);
-    console.error('❌ 强制使用相对路径');
-    return '';
-  }
-
+  // 如果有值，直接使用
   console.warn(`🔧 使用API基础URL: "${envValue}"`);
   return envValue;
 })();

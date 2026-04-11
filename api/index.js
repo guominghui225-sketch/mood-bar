@@ -56,18 +56,31 @@ try {
     // 实际上，问题可能是Express应用期望/health但路由是/api/health
     // 我们需要模拟请求路径，使其匹配Express路由
 
-    // 创建修改后的请求对象副本
-    const modifiedReq = {
-      ...req,
-      // 如果原始URL以/api开头，保持原样；否则添加/api前缀
-      url: originalUrl.startsWith('/api') ? originalUrl : `/api${originalUrl}`,
-      originalUrl: originalUrl
-    };
+    // 创建请求对象的浅拷贝，修改url和originalUrl属性
+    // 注意：我们创建一个新对象，但保持对原始req的引用，以便其他属性可用
+    const wrappedReq = Object.create(req);
 
-    console.log(`  - 修改后URL: ${modifiedReq.url}`);
-    console.log(`  - 修改后原始URL: ${modifiedReq.originalUrl}`);
+    // 设置新的url属性
+    const targetUrl = originalUrl.startsWith('/api') ? originalUrl : `/api${originalUrl}`;
+    Object.defineProperty(wrappedReq, 'url', {
+      value: targetUrl,
+      writable: true,
+      enumerable: true,
+      configurable: true
+    });
 
-    return app(modifiedReq, res);
+    // 设置originalUrl属性
+    Object.defineProperty(wrappedReq, 'originalUrl', {
+      value: originalUrl,
+      writable: true,
+      enumerable: true,
+      configurable: true
+    });
+
+    console.log(`  - 目标URL: ${targetUrl}`);
+    console.log(`  - 原始URL: ${originalUrl}`);
+
+    return app(wrappedReq, res);
   };
 
 } catch (error) {
