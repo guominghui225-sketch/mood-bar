@@ -9,7 +9,22 @@ import { getMoodLabel } from '@/constants';
 // 后端API基础URL
 // 如果VITE_API_BASE_URL为空字符串，则使用相对路径（用于Vercel部署）
 // 如果未定义，则使用localhost开发环境
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL !== undefined ? import.meta.env.VITE_API_BASE_URL : 'http://localhost:3002';
+const API_BASE_URL = (() => {
+  const envValue = import.meta.env.VITE_API_BASE_URL;
+  console.log('🔧 API_BASE_URL环境变量值:', {
+    envValue,
+    isUndefined: envValue === undefined,
+    isEmptyString: envValue === '',
+    mode: import.meta.env.MODE,
+    isProduction: import.meta.env.PROD
+  });
+
+  // 如果未定义或空字符串，使用空字符串（相对路径）
+  if (envValue === undefined || envValue === '') {
+    return '';
+  }
+  return envValue;
+})();
 
 /**
  * 生成鸡尾酒
